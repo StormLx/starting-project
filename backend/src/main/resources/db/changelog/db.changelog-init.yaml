@@ -1,0 +1,164 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-db
+      author: Alexandre_Caldato
+      changes:
+        - sql: DROP TABLE IF EXISTS dbuser;
+        - createSequence:
+            sequenceName: dbuser_seq
+            startValue: 1
+            incrementBy: 1
+
+  - changeSet:
+      id: create-dbuser
+      author: Alexandre_Caldato
+      changes:
+        - createTable:
+            tableName: dbuser
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+        - addDefaultValue:
+            columnName: id
+            tableName: dbuser
+            defaultValueSequenceNext: "dbuser_seq"
+
+  - changeSet:
+      id: insert-dbusers
+      author: Alexandre_Caldato
+      changes:
+        - insert:
+            tableName: dbuser
+            columns:
+              - column:
+                  name: username
+                  value: "dbuser"
+              - column:
+                  name: password
+                  value: "$2y$10$.qkbukzzX21D.bqbI.B2R.tvWP90o/Y16QRWVLodw51BHft7ZWbc."
+        - insert:
+            tableName: dbuser
+            columns:
+              - column:
+                  name: username
+                  value: "dbadmin"
+              - column:
+                  name: password
+                  value: "$2y$10$kp1V7UYDEWn17WSK16UcmOnFd1mPFVF6UkLrOOCGtf24HOYt8p1iC"
+
+  - changeSet:
+      id: create-roles
+      author: Alexandre_Caldato
+      changes:
+        - createSequence:
+            sequenceName: role_seq
+            startValue: 1
+            incrementBy: 1
+        - createTable:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+        - addDefaultValue:
+            columnName: id
+            tableName: role
+            defaultValueSequenceNext: "role_seq"
+
+  - changeSet:
+      id: create-user-role
+      author: Alexandre_Caldato
+      changes:
+        - createTable:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_role_user
+                    references: dbuser(id)
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_role_role
+                    references: role(id)
+  - changeSet:
+      id: insert-roles
+      author: Alexandre_Caldato
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: "ADMIN"
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: "USER"
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: "MANAGER"
+
+  - changeSet:
+      id: assign-roles-to-users
+      author: Alexandre_Caldato
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: role_id
+                  value: 1
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: role_id
+                  value: 2
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: role_id
+                  value: 3
