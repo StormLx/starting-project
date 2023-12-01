@@ -24,3 +24,5 @@ You'll find the latest version of Spring and Java 17 that includes:
 - Lombok
 - Spring JPA
 - Liquibase
+
+For more information on the backend setup you can read the [HELP FILE](./backend/HELP.md)
