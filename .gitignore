@@ -43,7 +43,6 @@ frontend/typings
 Thumbs.db
 target/
 
-backend/HELP.md
 backend/.mvn/*
 backend/!.mvn/wrapper/maven-wrapper.jar
 backend/!**/src/main/**/target/
