@@ -1,5 +1,7 @@
 # Angular / Java (Spring)
 
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-black-magic.svg)](https://forthebadge.com)
+
 ## Starter project
 
 This project is a starter pack for a fullstack Angular / Java web project.

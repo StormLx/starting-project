@@ -5,5 +5,5 @@ import starter.backend.model.DBUser;
 
 public interface DBUserRepository extends JpaRepository<DBUser, Long> {
 
-    public DBUser findByUsername(String username);
+    DBUser findByUsername(String username);
 }
